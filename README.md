@@ -1,0 +1,2 @@
+openerp7_accounting
+===================
