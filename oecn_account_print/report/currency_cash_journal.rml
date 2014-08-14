@@ -1,0 +1,386 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="Test" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="28.0" y1="28.0" width="539" height="786"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <blockTableStyle id="Standard_Outline">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="&#x8868;&#x683C;6">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="&#x8868;&#x683C;1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,-1" stop="0,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,-1" stop="1,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="2,-1" stop="2,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="3,-1" stop="3,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="4,-1" stop="4,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="5,-1" stop="5,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="6,-1" stop="6,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="7,-1" stop="7,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="8,-1" stop="8,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="9,-1" stop="9,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="10,-1" stop="10,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="11,-1" stop="11,-1"/>
+    </blockTableStyle>
+    <blockTableStyle id="&#x8868;&#x683C;2">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="&#x8868;&#x683C;3">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="&#x8868;&#x683C;5">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="&#x8868;&#x683C;4">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <paraStyle name="P1" fontName="Helvetica" alignment="LEFT"/>
+    <paraStyle name="P2" fontName="Helvetica" alignment="CENTER"/>
+    <paraStyle name="P3" fontName="Helvetica" alignment="RIGHT"/>
+    <paraStyle name="P4" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="7.0" leading="9" alignment="LEFT"/>
+    <paraStyle name="P6" fontName="Helvetica" fontSize="7.0" leading="9" alignment="RIGHT"/>
+    <paraStyle name="P7" fontName="Helvetica" alignment="RIGHT"/>
+    <paraStyle name="P8" fontName="Helvetica" alignment="LEFT"/>
+    <paraStyle name="P9" rightIndent="0.0" leftIndent="-2.0" fontName="Helvetica" fontSize="7.0" leading="9" alignment="LEFT"/>
+    <paraStyle name="P10" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT"/>
+    <paraStyle name="Standard" fontName="Helvetica"/>
+    <paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
+    <paraStyle name="Text body" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="List" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Caption" fontName="Helvetica" fontSize="12.0" leading="15" spaceBefore="6.0" spaceAfter="6.0"/>
+    <paraStyle name="Index" fontName="Helvetica"/>
+    <paraStyle name="Table Contents" fontName="Helvetica"/>
+    <paraStyle name="Table Heading" fontName="Helvetica" alignment="CENTER"/>
+    <images/>
+  </stylesheet>
+  <story>
+    <para style="P1">[[repeatIn(objects, 'o')]]</para>
+    <para style="P2">[[o.name]]外币日记账</para>
+    <para style="P1">科目:[[o.name]]</para>
+    <blockTable colWidths="269.0,269.0" style="&#x8868;&#x683C;6">
+      <tr>
+        <td>
+          <para style="P1">开始日期:[[data['all_date']['period_start_date_start'] ]] </para>
+        </td>
+        <td>
+          <para style="P3">结束日期:[[data['all_date']['period_end_date_stop'] ]]</para>
+        </td>
+      </tr>
+    </blockTable>
+    <blockTable colWidths="50.0,61.0,51.0,66.0,31.0,39.0,44.0,44.0,44.0,30.0,40.0,40.0" style="&#x8868;&#x683C;1">
+      <tr>
+        <td>
+          <para style="P8">日期</para>
+        </td>
+        <td>
+          <para style="P8">凭证字号</para>
+        </td>
+        <td>
+          <para style="P8">摘要</para>
+        </td>
+        <td>
+          <para style="P8">对方科目</para>
+        </td>
+        <td>
+          <para style="P8">汇率</para>
+        </td>
+        <td>
+          <para style="P7">借</para>
+          <para style="P7">外币 </para>
+        </td>
+        <td>
+          <para style="P8">方</para>
+          <para style="P7">金额</para>
+        </td>
+        <td>
+          <para style="P7">贷</para>
+          <para style="P7">外币 </para>
+        </td>
+        <td>
+          <para style="P8">方</para>
+          <para style="P7">金额</para>
+        </td>
+        <td>
+          <para style="P8">方向</para>
+        </td>
+        <td>
+          <para style="P7">余</para>
+          <para style="P7">外币 </para>
+        </td>
+        <td>
+          <para style="P8">额</para>
+          <para style="P7">金额</para>
+        </td>
+      </tr>
+    </blockTable>
+    <blockTable colWidths="50.0,61.0,51.0,66.0,32.0,39.0,43.0,43.0,43.0,30.0,40.0,40.0" style="&#x8868;&#x683C;2">
+      <tr>
+        <td>
+          <para style="P5">[[data['all_date']['period_start_date_start'] ]]</para>
+        </td>
+        <td>
+          <para style="P5">
+            <font color="white"> </font>
+          </para>
+        </td>
+        <td>
+          <para style="P5">期初余额</para>
+        </td>
+        <td>
+          <para style="P5">
+            <font color="white"> </font>
+          </para>
+        </td>
+        <td>
+          <para style="P5">
+            <font color="white"> </font>
+          </para>
+        </td>
+        <td>
+          <para style="P6">
+            <font color="white"> </font>
+          </para>
+        </td>
+        <td>
+          <para style="P6">
+            <font color="white"> </font>
+          </para>
+        </td>
+        <td>
+          <para style="P6">
+            <font color="white"> </font>
+          </para>
+        </td>
+        <td>
+          <para style="P6">
+            <font color="white"> </font>
+          </para>
+        </td>
+        <td>
+          <para style="P5">
+            <font color="white"> </font>
+          </para>
+        </td>
+        <td>
+          <para style="P6">
+            <font color="white"> </font>
+          </para>
+        </td>
+        <td>
+          <para style="P6">[[formatLang(balance(o.id,date_stop=data['all_date']['period_start_date_start'])['balance'])]]</para>
+        </td>
+      </tr>
+    </blockTable>
+    <section>
+      <para style="P4">[[repeatIn(lines(o.id,by_day=True),'period')]]</para>
+      <section>
+        <para style="P4">[[repeatIn(period['days'],'days')]]</para>
+        <section>
+          <para style="P4">[[repeatIn(days['lines'],'line')]]</para>
+          <blockTable colWidths="50.0,61.0,50.0,66.0,32.0,42.0,42.0,42.0,42.0,30.0,41.0,41.0" style="&#x8868;&#x683C;3">
+            <tr>
+              <td>
+                <para style="P5">[[ line.date ]]</para>
+              </td>
+              <td>
+                <para style="P5">[[ line.move_id.name ]]</para>
+              </td>
+              <td>
+                <para style="P5">[[line.name ]]</para>
+              </td>
+              <td>
+                <para style="P5">[[ contrepartie([line.id])[line.id] ]]</para>
+              </td>
+              <td>
+                <para style="P5">[[ formatLang(line.amount_currency&gt;0 and line.debit/line.amount_currency or line.credit/abs(line.amount_currency))]]</para>
+              </td>
+              <td>
+                <para style="P6">[[ formatLang(line.debit and line.amount_currency) ]]</para>
+              </td>
+              <td>
+                <para style="P6">[[ formatLang(line.debit) ]]</para>
+              </td>
+              <td>
+                <para style="P6">[[ formatLang(line.credit and abs(line.amount_currency)) ]]</para>
+              </td>
+              <td>
+                <para style="P6">[[ formatLang(line.credit) ]]</para>
+              </td>
+              <td>
+                <para style="P9">[[get_direction(line.debit-line.credit)]]</para>
+              </td>
+              <td>
+                <para style="P6">[[ formatLang(line.debit and line.amount_currency or 0 +line.credit and line.amount_currency or 0)) ]]</para>
+              </td>
+              <td>
+                <para style="P6">[[ formatLang(line.debit or 0 +line.credit or 0)) ]]</para>
+              </td>
+            </tr>
+          </blockTable>
+        </section>
+        <blockTable colWidths="49.0,61.0,51.0,66.0,32.0,42.0,42.0,42.0,42.0,31.0,41.0,41.0" style="&#x8868;&#x683C;5">
+          <tr>
+            <td>
+              <para style="P8">
+                <font color="white"> </font>
+              </para>
+            </td>
+            <td>
+              <para style="P8">
+                <font color="white"> </font>
+              </para>
+            </td>
+            <td>
+              <para style="P5">本日合计</para>
+            </td>
+            <td>
+              <para style="P5">
+                <font color="white"> </font>
+              </para>
+            </td>
+            <td>
+              <para style="P5">
+                <font color="white"> </font>
+              </para>
+            </td>
+            <td>
+              <para style="P6">[[formatLang(reduce(lambda x,y:x+(y.debit and y.amount_currency or 0) ,days['lines'],0))]]</para>
+            </td>
+            <td>
+              <para style="P6">[[formatLang(reduce(lambda x,y:x+y.debit or 0 ,days['lines'],0))]]</para>
+            </td>
+            <td>
+              <para style="P6">[[formatLang(abs(reduce(lambda x,y:x+y.credit and abs(y.amount_currency or 0) ,days['lines'],0)))]]</para>
+            </td>
+            <td>
+              <para style="P6">[[formatLang(reduce(lambda x,y:x+y.credit or 0 ,days['lines'],0))]]</para>
+            </td>
+            <td>
+              <para style="P9">[[get_direction(reduce(lambda x,y:x+y['debit'] or 0 ,period['lines'],0)-reduce(lambda x,y:x+y['credit'] or 0 ,period['lines'],0)) ]]</para>
+            </td>
+            <td>
+              <para style="P6">[[formatLang(balance(o.id,date_stop=days['date'])['amount_currency'])]]</para>
+            </td>
+            <td>
+              <para style="P6">[[formatLang(balance(o.id,date_stop=days['date'])['balance'])]]</para>
+            </td>
+          </tr>
+        </blockTable>
+      </section>
+      <blockTable colWidths="48.0,61.0,51.0,66.0,32.0,42.0,42.0,42.0,42.0,30.0,41.0,41.0" style="&#x8868;&#x683C;4">
+        <tr>
+          <td>
+            <para style="P8">
+              <font color="white"> </font>
+            </para>
+          </td>
+          <td>
+            <para style="P8">
+              <font color="white"> </font>
+            </para>
+          </td>
+          <td>
+            <para style="P5">本期合计</para>
+          </td>
+          <td>
+            <para style="P5">
+              <font color="white"> </font>
+            </para>
+          </td>
+          <td>
+            <para style="P5">
+              <font color="white"> </font>
+            </para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(reduce(lambda x,y:x+(y.debit and y.amount_currency or 0) ,period['lines'],0))]]</para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(reduce(lambda x,y:x+y.debit or 0 ,period['lines'],0))]]</para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(reduce(lambda x,y:x+y.credit and abs(y.amount_currency or 0) ,period['lines'],0))]]</para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(reduce(lambda x,y:x+y.credit or 0 ,period['lines'],0))]]</para>
+          </td>
+          <td>
+            <para style="P5">[[get_direction(reduce(lambda x,y:x+y['debit'] or 0 ,period['lines'],0)-reduce(lambda x,y:x+y['credit'] or 0 ,period['lines'],0)) ]]</para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(balance(o.id,date_stop=period['period'].date_stop)['amount_currency'])]]</para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(balance(o.id,date_stop=period['period'].date_stop)['balance'])]]</para>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <para style="P8">
+              <font color="white"> </font>
+            </para>
+          </td>
+          <td>
+            <para style="P8">
+              <font color="white"> </font>
+            </para>
+          </td>
+          <td>
+            <para style="P5">本年合计</para>
+          </td>
+          <td>
+            <para style="P5">
+              <font color="white"> </font>
+            </para>
+          </td>
+          <td>
+            <para style="P5">
+              <font color="white"> </font>
+            </para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(balance(o.id, date_start=data['all_date']['period_start_date_start'],date_stop=period['period'].date_stop)['debit_amount_currency'])]]</para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(balance(o.id,date_start=data['all_date']['period_start_date_start'],date_stop=period['period'].date_stop)['debit'])]]</para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(balance(o.id,date_start=data['all_date']['period_start_date_start'],date_stop=period['period'].date_stop)['credit_amount_currency'])]]</para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(balance(o.id,date_start=data['all_date']['period_start_date_start'],date_stop=period['period'].date_stop)['credit'])]]</para>
+          </td>
+          <td>
+            <para style="P5">[[get_direction(balance(o.id,date_start=data['all_date']['period_start_date_start'],date_stop=period['period'].date_stop)['debit'] -balance(o.id,date_start=data['all_date']['period_start_date_start'],date_stop=period['period'].date_stop)['credit'])]]</para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(balance(o.id,date_stop=period['period'].date_stop)['amount_currency'])]]</para>
+          </td>
+          <td>
+            <para style="P6">[[formatLang(balance(o.id,date_stop=period['period'].date_stop)['balance'])]]</para>
+          </td>
+        </tr>
+      </blockTable>
+      <para style="Standard">
+        <font color="white"> </font>
+      </para>
+    </section>
+  </story>
+</document>
+

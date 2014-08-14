@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- author = jeff@openerp.cn;joshua@openerp.cn -->
+<!-- thanks = [oldrev@gmail.com] -->
+
+<openerp>
+  <data>
+
+<!-- ADD MOVE PRINT FUNCTION TO MOVES -->
+
+    <!-- Print Move-->
+    <report auto="False" id="account_move" model="account.move" name="account.move" 
+            rml="oecn_account_print/report/account_move.rml" string="Print Move" header="False"/>    
+    <record id="account_move" model="ir.actions.report.xml">
+      <field name="report_type">pdf</field>
+    </record>
+    
+    <!-- Print Cash Journal -->
+    <report auto="False" id="cash_journal" model="account.account" name="account.cash_journal" 
+            menu="False" rml="oecn_account_print/report/cash_journal.rml" string="Print Cash Journal"/>
+    <record id="cash_journal" model="ir.actions.report.xml">
+      <field name="report_type">pdf</field>
+    </record>
+    
+    <!-- Print Foreign Currency Cash Journal-->
+    <report auto="False" id="currency_cash_journal" menu="False" model="account.account" 
+            name="account.currency_cash_journal" rml="oecn_account_print/report/currency_cash_journal.rml" 
+            string="Print Foreign Currency Cash Journal"/>
+    <record id="currency_cash_journal" model="ir.actions.report.xml">
+      <field name="report_type">pdf</field>
+    </record>
+    
+    <!-- Print Three Columns Ledger-->
+    <report auto="False" id="threecolumns_ledger" menu="False" model="account.account" 
+            name="account.threecolumns_ledger" rml="oecn_account_print/report/threecolumns_ledger.rml" 
+            string="Print Three Columns Ledger"/>
+    <record id="threecolumns_ledger" model="ir.actions.report.xml">
+      <field name="report_type">pdf</field>
+    </record>
+    
+    <!-- Print Stock Ledger -->
+    <report auto="False" id="stock_ledger" menu="False" model="account.account" 
+            name="account.stock_ledger" rml="oecn_account_print/report/stock_ledger.rml"
+            string="Print Stock Ledger"/>
+    <record id="stock_ledger" model="ir.actions.report.xml">
+      <field name="report_type">pdf</field>
+    </record>
+
+    <!-- Print General Ledger -->
+    <report auto="False" id="general_ledger" menu="False" model="account.account" 
+            name="account.general_ledger" rml="oecn_account_print/report/general_ledger.rml" 
+            string="Print General Ledger"/>
+    <record id="general_ledger" model="ir.actions.report.xml">
+      <field name="report_type">pdf</field>
+    </record>
+    
+  </data>
+</openerp>

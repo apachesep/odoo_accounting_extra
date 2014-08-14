@@ -1,0 +1,182 @@
+# -*- encoding: utf-8 -*-
+# __author__ = jeff@openerp.cn
+# __thanks__ = [oldrev@gmail.com, popkar77@gmail.com]
+##############################################################################
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+import time
+import pooler
+import wizard
+from tools.translate import _
+
+#General Parameters
+
+_GENERAL_FORM = '''<?xml version="1.0"?>
+<form string="Select account to print">
+    <field name="company_id"/>
+    <field name="account"/>
+    <newline/>
+    <field name="period_form"/>
+    <field name="period_to"/>
+    <newline/>
+</form>'''
+
+_GENERAL_FIELDS = {
+    'account': {'string':'Account', 'type':'many2one', 'relation':'account.account', 'required':True},
+    'company_id': {'string': 'Company', 'type': 'many2one', 'relation': 'res.company', 'required': True},
+    'period_form':  {'string': 'From Period', 'type': 'many2one', 'relation': 'account.period', 'required': True},
+    'period_to':  {'string': 'To Period', 'type': 'many2one', 'relation': 'account.period', 'required': True},
+}
+
+
+#Product for stock ledger, partner for three columns ledger
+
+_DETAIL_FORM = '''<?xml version="1.0"?>
+<form string="Select Product or Partner for grouping">
+    <field name="product" />
+    <newline/>
+    <field name="partner" />
+    <newline/>
+</form>'''
+
+
+_DETAIL_FIELDS = {
+    'product': {'string':'Products','type':'many2one','relation':'product.product'},
+    'partner': {'string':'Partners','type':'many2one','relation':'res.partner'},
+}
+
+def _get_defaults(self, cr, uid, data, context={}):
+    user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, uid, context=context)
+    if user.company_id:
+        company_id = user.company_id.id
+    else:
+        company_id = pooler.get_pool(cr.dbname).get('res.company').search(cr, uid, [('parent_id', '=', False)])[0]
+    data['form']['company_id'] = company_id
+    data['form']['report_type'] = 'threecolumns_ledger'
+    #Default start period = first period in system
+    #Default end   period = last period in same year
+    ids = pooler.get_pool(cr.dbname).get('account.period').find(cr, uid, context=context)
+    fiscalyear_id = pooler.get_pool(cr.dbname).get('account.period').browse(cr, uid, ids[0]).fiscalyear_id
+    cr.execute(("SELECT date_start ,fiscalyear_id,id "\
+                "FROM account_period "\
+                "WHERE fiscalyear_id='%s' "\
+                "ORDER BY date_start asc ")% (int(fiscalyear_id)))
+    res = cr.dictfetchall()
+    data['form']['period_to'] = ids[0]
+    data['form']['period_form'] = res[0]['id']
+    data['form']['context'] = context
+    return data['form']
+
+
+class DetailLedger(wizard.interface):
+
+
+    def _check_format(self, cr, uid, data, context={}):
+        """
+        Check account type to know which format should be print
+        1. Account code start with '1001' or '1002', with currency, print currency cash journal
+        2. Account code start with '1001' or '1002', without currency, print cash journal
+        3. If user input product, print stock ledger
+        4. If user didn't input product, print three columns ledger 
+        """
+        new_ids = data['form']['account']
+        account = pooler.get_pool(cr.dbname).get('account.account').browse(cr, uid, new_ids, context=context)
+        if(account.code[0:4] == '1001' or account.code[0:4] == '1002'):
+            if(account.currency_id):
+                return 'currency_cash_journal'
+            else:
+                return 'cash_journal'
+        else:
+            return 'detail'
+
+    def _check_product(self, cr, uid, data, context={}):
+        
+        if data['form'].get('product',''):
+            return 'stock_ledger'
+        else:
+            return 'threecolumns_ledger'
+
+    states = {
+        'init': {
+            'actions': [_get_defaults],
+            # Select account
+            'result': {'type':'form', 'arch':_GENERAL_FORM,'fields':_GENERAL_FIELDS, 
+                'state':[('end','Cancel','gtk-cancel'),('checkreport','Next','gtk-go-forward')]}
+        },
+
+        'checkreport': {
+            'actions': [],
+            # select the right detail ledger format for current account 
+            'result': {'type':'choice','next_state':_check_format}
+        },
+
+        'detail': {
+            'actions': [],
+            # input product or partner
+            'result': {'type':'form', 'arch':_DETAIL_FORM, 'fields':_DETAIL_FIELDS,
+                'state':[('end','Cancel','gtk-cancel'),('checkproduct','Next','gtk-go-forward')]}
+        },
+
+        'checkproduct': {
+            'actions': [],
+            # select the right detail ledger format for current account
+            'result': {'type':'choice','next_state':_check_product}
+        },
+
+
+        'cash_journal': {
+            'actions': [],
+            'result': {'type':'print', 'report':'account.cash_journal', 'state':'end'}
+        },
+
+        'currency_cash_journal': {
+            'actions': [],
+            'result': {'type':'print', 'report':'account.currency_cash_journal', 'state':'end'}
+        },
+
+        'threecolumns_ledger': {
+            'actions': [],
+            'result': {'type':'print', 'report':'account.threecolumns_ledger', 'state':'end'}
+        },
+        'stock_ledger': {
+            'actions': [],
+            'result': {'type':'print', 'report':'account.stock_ledger', 'state':'end'}
+        },
+    }
+
+DetailLedger('oecn_account_print.detail_ledger')
+
+
+class GeneralLedger(wizard.interface):
+
+    states = {
+
+        'init': {
+            'actions': [_get_defaults],
+            # Select account
+            'result': {'type':'form', 'arch':_GENERAL_FORM,'fields':_GENERAL_FIELDS,
+                'state':[('end','Cancel','gtk-cancel'),('general_ledger','Next','gtk-go-forward')]}
+        },
+
+        'general_ledger': {
+            'actions': [],
+            'result': {'type':'print', 'report':'account.general_ledger', 'state':'end'}
+        },
+
+    }
+
+GeneralLedger('oecn_account_print.general_ledger')

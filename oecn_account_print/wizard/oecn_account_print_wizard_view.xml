@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!-- __author__ = jeff@openerp.cn -->
+<!-- __thanks__ = [oldrev@gmail.com, popkar77@gmail.com] -->
+<openerp>
+    <data>
+
+        <!-- Add menu item under account/report menu -->
+        <menuitem name="China Reports" id="menu_oecn_account_print" 
+                  parent="account.menu_finance_reporting" sequence="99"/>
+ 
+        <!-- General Ledger -->
+        <record id="oecn_general_report_view" model="ir.ui.view">
+            <field name="name">general.ledger.form</field>
+            <field name="model">general.ledger</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="General Ledger">
+                <field name="account_ids"/>
+                <field name="company_id"/>
+                <field name="period_from"/>
+                <field name="period_to"/>
+                <group colspan="4" col="4">
+                    <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                    <button icon="gtk-ok" name="print_report" string="Print" type="object"/>
+                </group>
+                </form>
+            </field>
+        </record>
+    <act_window name="General Report" res_model="general.ledger" view_mode="form" target="new" id="action_oecn_general_report"/>
+    <menuitem icon="STOCK_PRINT" action="action_oecn_general_report" id="menu_general_ledger" parent="menu_oecn_account_print"  sequence="10"/>
+
+    <!--Detail ledger--> 
+    <record id="oecn_detail_ledger_view" model="ir.ui.view">
+        <field name="name">detail.ledger.form</field>
+        <field name="model">detail.ledger</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Detail Ledger">
+                <field name="account_id"/>
+                <field name="company_id"/>
+                <field name="period_from"/>
+                <field name="period_to"/>
+                <field name="product"/>
+                <field name="partner"/>
+                <group colspan="4" col="4">
+                <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                <button icon="gtk-ok" name="print_report" string="Print" type="object"/>
+                </group>
+            </form>
+        </field>
+     </record>
+<act_window name="Detail Report" res_model="detail.ledger" view_mode="form" target="new" id="action_oecn_detail_report"/>
+ <menuitem icon="STOCK_PRINT" action="action_oecn_detail_report" id="menu_detail_ledger"  parent="menu_oecn_account_print"  sequence="20"/>
+       
+    </data>
+</openerp>
+

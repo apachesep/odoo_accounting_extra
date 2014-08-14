@@ -1,0 +1,115 @@
+# -*- encoding: utf-8 -*-
+# __author__ = jeff@openerp.cn;joshua@openerp.cn
+# __thanks__ = [oldrev@gmail.com]
+##############################################################################
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+from  osv import osv, fields
+from tools.translate import _
+
+
+class detail_ledger(osv.osv_memory):
+    '''
+    Cash journal,Foreign currency journal,Stock ledger,Three columns ledger
+    '''
+    _name = 'detail.ledger'
+    _descript = 'Detail Ledger(Cash journal, Foreign Currency journal, Stock Ledger, Three columns ledger)'
+    _columns = {
+        'account_id':fields.many2one('account.account', 'Account', required=True),
+        'company_id':fields.many2one('res.company', 'Company', required=True),       
+        'period_from':fields.many2one('account.period', 'Period Form', required=True),
+        'period_to':fields.many2one('account.period', 'Period To', required=True),
+        'partner':fields.many2one('res.partner', 'Partner'),
+        'product':fields.many2one('product.product','Product'),
+    }
+    
+    def _get_period_from(self, cr, uid, data, context=None):
+        ids = self.pool.get('account.period').find(cr, uid, context=context)
+        #print 'ids:',ids
+        fiscalyear_id = self.pool.get('account.period').browse(cr, uid, ids[0]).fiscalyear_id
+        cr.execute(("SELECT date_start ,fiscalyear_id,id "\
+                "FROM account_period "\
+                "WHERE fiscalyear_id='%s' "\
+                "ORDER BY date_start asc ")% (int(fiscalyear_id)))
+        res = cr.dictfetchall()
+        return res[0]['id']
+    
+    _defaults = {
+        'company_id':lambda s, cr, uid, c: s.pool.get('res.company')._company_default_get(cr, uid, 'account.account', context=c),
+        'period_to':lambda s, cr, uid, c:s.pool.get('account.period').find(cr, uid, context=c)[0],
+        'period_from':_get_period_from
+    }
+
+    def print_report(self, cr, uid, ids, context=None):
+        """
+        Check account type to know which format should be print
+        1. Account type is liquidity, with currency, print currency cash journal
+        2. Account type is liquidity, without currency, print cash journal
+        3. If user input product, print stock ledger
+        4. If user didn't input product, print three columns ledger 
+        """
+        datas = self.read(cr, uid, ids[0], ['account_id','period_from','period_to','product','partner','company_id'], context=context)
+#        datas['ids'] = [datas['account_id'][0]]
+        #print 'context:',context
+        #print 'datas:',datas
+        account = self.pool.get('account.account').browse(cr, uid, datas['account_id'], context=context)#EC
+        if(account.type == 'liquidity'):
+            if(account.currency_id):
+                report_name = 'account.currency_cash_journal'
+            else:
+                report_name = 'account.cash_journal'
+        elif datas.get('product',''):
+            report_name =  'account.stock_ledger'
+        else:
+            report_name = 'account.threecolumns_ledger'
+#EC        datas['report_name'] = report_name
+        return {
+                'type':'ir.actions.report.xml',
+                'report_name':report_name,
+                'datas':datas
+        }
+
+
+detail_ledger()
+
+class general_ledger(osv.osv_memory):
+    '''
+    General Ledger
+    '''
+    _name = 'general.ledger'
+    _description = 'General Ledger'
+    _columns = {
+        'account_ids':fields.many2many('account.account', 'general_ledger_account_account_rel','general_ledger_id','account_id', 'Account', required=True),
+        'company_id':fields.many2one('res.company', 'Company', required=True),
+        'period_from':fields.many2one('account.period', 'Period From', required=True),
+        'period_to':fields.many2one('account.period', 'Period To', required=True),
+    }
+
+    def print_report(self, cr, uid, ids, context=None):
+        res = self.read(cr, uid, ids[0], ['account_ids','company_id','period_from','period_to'])
+        #print 'res:%s,ids:%s'%(res,ids)
+        datas = {'ids':res['account_ids'],'company_id':res['company_id'],'period_from':res['period_from'],'period_to':res['period_to']}
+        #print 'datas:',datas
+        return {
+            'type':'ir.actions.report.xml',
+            'report_name':'account.general_ledger',
+            'datas':datas,
+        } 
+
+general_ledger()
+# vim:expandtab:smartindent:tabstop=4;softtabstop=4;shiftwidth=4;
+
